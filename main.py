@@ -54,9 +54,9 @@ async def start_handler(_, m: Message):
     await m.reply_text("Hi, I am Alive!\n\nSearch using /request command.", quote=True)
 
 
-@PDiskBot.on_message(filters.edited, group=-1)
+@PDiskBot.on_message(filters.command("request", prefixes=["#", "/"]) & ~filters.edited, group=-1)
 async def text_handler(_, m: Message):
-    if len(m) < 2:
+    if len(m.command) < 2:
         return await m.reply_text("Search Query Missing!")
     editable = await m.reply_text("Please Wait ...", quote=True)
     response = await search_pdisk_videos(m.text.split(" ", 1)[-1], Configs.PDISK_USERNAME, Configs.PDISK_PASSWORD)
